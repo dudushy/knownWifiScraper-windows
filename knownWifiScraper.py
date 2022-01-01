@@ -5,7 +5,9 @@ import time
 
 #main
 while True:
+    # clear screen
     os.system('cls')
+
     # reset vars
     profiles = []
     passwords = {}
@@ -23,8 +25,9 @@ while True:
     print(f"""
 -----] Wifi Key Scraper [-----
 | [!] ({len(profiles)}) Profiles found""")
-    # wait 1s
-    time.sleep(1)
+
+    # wait 2 second
+    time.sleep(2)
 
     # grab each key
     for profile in profiles:
@@ -62,4 +65,3 @@ while True:
 
 #end
 os.system('pause')
-
