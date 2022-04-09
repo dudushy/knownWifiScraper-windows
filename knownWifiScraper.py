@@ -1,3 +1,4 @@
+# sourcery skip: convert-to-enumerate, for-append-to-extend, list-comprehension, move-assign-in-block, use-dict-items
 #imports
 import subprocess
 import os
@@ -31,10 +32,10 @@ while True:
 
     # grab each key
     for profile in profiles:
-        print(f'|\n| [! INIT] Profile: {profile}')
+        print(f'|\n| [! INIT] Profile: "{profile}"')
         # try execute code
         try:
-            password_raw = subprocess.check_output(["netsh", "wlan", "show", "profile", f'name="{profile}"', "key=clear"], shell=True, encoding="cp858")
+            password_raw = subprocess.check_output(["netsh", "wlan", "show", "profile", f'name={profile.replace(" ", "*")}', "key=clear"], shell=True, encoding="cp858")
             for line in password_raw.split("\n"):
                 if "Key Content            :" in line:
                     passwords[f"profile{count}"] = {
@@ -42,10 +43,10 @@ while True:
                         "id": profile,
                         "password": line[(line.find(":")) + 2:]
                         }
-                    print(f'|\n| [! DONE] Profile: {profile} // Password: {line[(line.find(":")) + 2:]}')
+                    print(f'|\n| [! DONE] Profile: "{profile}" // Password: "{line[(line.find(":")) + 2:]}"')
         # set password to null if fail
         except Exception as e:
-            print(f'|\n| [! ERROR] Profile: {profile} // FAIL')
+            print(f'|\n| [! ERROR] Profile: "{profile}" // FAIL')
             passwords[f"profile{count}"] = {
                         "status": "ERROR",
                         "id": profile,
@@ -56,7 +57,7 @@ while True:
     # save output text
     with open("output.txt", "w") as file:
         for item in passwords:
-            file.write(f"[{item}/{passwords[item]['status']}] {passwords[item]['id']}: {passwords[item]['password']}\n")
+            file.write(f"[{item}/{passwords[item]['status']}] {passwords[item]['id']} <|> {passwords[item]['password']}\n")
         print("|\n| [!] 'output.txt' saved")
     
     # repeat loop?
