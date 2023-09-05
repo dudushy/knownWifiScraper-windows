@@ -4,6 +4,18 @@ import subprocess
 import os
 import time
 
+# Functions
+def writeCustomLine(max_line_len, word1, word2):
+    line_spaces = (max_line_len // 4) - 3
+    
+    word1_space = line_spaces - len(word1)
+    word1_result = f"{word1_space * ' '}{word1}{word1_space * ' '}"
+    
+    word2_space = line_spaces - len(word2)
+    word2_result = f"{word2_space * ' '}{word2}{word2_space * ' '}"
+    
+    return f"|{word1_result}|{word2_result}|"
+
 # Main
 while True:
     # Clear screen
@@ -56,8 +68,14 @@ while True:
 
     # Save output text
     with open(os.path.join(os.path.dirname(__file__), "output.txt"), "w") as file:
+        max_line_len = 61
+        file.write(f"-" * max_line_len + "\n")
+        file.write(writeCustomLine(max_line_len, "ID", "PASSWORD") + "\n")
         for item in passwords:
-            file.write(f"[{item}/{passwords[item]['status']}] {passwords[item]['id']} <|> {passwords[item]['password']}\n")
+            if (passwords[item]["status"] != "ERROR"):
+                file.write(writeCustomLine(max_line_len, passwords[item]["id"], passwords[item]["password"]) + "\n")
+                # file.write(f"[{item}/{passwords[item]['status']}] {passwords[item]['id']} <|> {passwords[item]['password']}" + "\n")
+        file.write(f"-" * max_line_len + "\n")
         print("|\n| [!] 'output.txt' saved")
     
     # Repeat loop?
