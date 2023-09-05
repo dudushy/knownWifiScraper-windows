@@ -71,6 +71,7 @@ while True:
         max_line_len = 61
         file.write(f"-" * max_line_len + "\n")
         file.write(writeCustomLine(max_line_len, "ID", "PASSWORD") + "\n")
+        file.write(f"-" * max_line_len + "\n")
         for item in passwords:
             if (passwords[item]["status"] != "ERROR"):
                 file.write(writeCustomLine(max_line_len, passwords[item]["id"], passwords[item]["password"]) + "\n")
